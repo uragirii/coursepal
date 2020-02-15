@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
+const mongoose = require('mongoose')
 
 const app = express()
 
@@ -22,6 +23,10 @@ app.use((req, res, next) => {
     }
     next();
 });
+app.set("view engine","ejs");
+app.use(express.static(__dirname + "/public"));
+
+mongoose.connect("mongodb://localhost:27017/coursepal", {useNewUrlParser:true})
 
 const logginIn = (req, res, next)=>{
     if (req.session.user && req.cookies.user_sid){
@@ -35,7 +40,7 @@ const logginIn = (req, res, next)=>{
 
 
 app.get("/",(req, res)=>{
-    res.send("New file")
+    res.render("index")
 })
 
 
