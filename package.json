@@ -14,6 +14,7 @@
   "author": "Cherub",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.8",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
     "ejs": "^3.0.1",
