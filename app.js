@@ -3,11 +3,13 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
+const seed = require("./routes/seed")
+const student = require("./routes/student")
+const teacher = require("./routes/teacher")
+const course = require("./routes/course")
+
 //Models
-const Student = require("./models/Student")
-const Teacher = require("./models/Teacher")
-const Course = require("./models/Course")
+
 
 const app = express()
 
@@ -33,7 +35,9 @@ app.use(express.static(__dirname + "/public"));
 
 mongoose.connect("mongodb://localhost:27017/coursepal", {useNewUrlParser:true})
 
-const logginIn = (req, res, next)=>{
+// TODO: Make custom Unauthorized page
+
+const loggedIn = (req, res, next)=>{
     if (req.session.user && req.cookies.user_sid){
         next();
     }
@@ -48,49 +52,34 @@ app.get("/",(req, res)=>{
     res.render("index")
 })
 
-app.post("/teacher/signup", (req, res)=>{
-    
-    // TODO: Check if email is already taken
-    bcrypt.hash(req.body.password,10).then((hash)=>{
-        newTeacher = {
-            name : req.body.name,
-            email : req.body.email,
-            rating : 0,
-            about : req.body.about,
-            avatarUrl : req.body.avatarUrl,
-            website : req.body.website,
-            hash
-        }
-        Teacher.create(newTeacher).then((createdTeacher)=>{
-            res.json(createdTeacher)
-        }).catch(err=>{console.error(err); res.send("Error occured")})
+app.get("/courses", (req, res)=>{
+
+    let regex = ".+"
+    if (req.query.q){
+        let arr = req.query.q.split(" ")
+        let arr2 = arr.map(x => `.*${x}.*`)
+        regex = arr2.join("|")
+    }
+    Course.find({name : {$regex: regex, $options : 'i'}}).sort({ratings : "descending"}).limit(10).then(courses=>{
+        res.json(courses)
     })
 })
+app.post("/courses/new", course.new)
 
-app.post("/student/signup", (req, res)=>{
-    // TODO: Check if email is already taken
-    bcrypt.hash(req.body.password,10).then((hash)=>{
-        newStudent = {
-            name : req.body.name,
-            email : req.body.email,
-            hash
-        }
-        Student.create(newStudent).then((createdStudent)=>{
-            res.json(createdStudent)
-        }).catch(err=>{console.error(err); res.send("Error occured")})
-    })
-})
+// Teacher Routes
 
-app.post("/courses/new", (req, res)=>{
-    //TODO:check for authorization
-    newCourse = req.body
-    newCourse.ratings=0
-    newCourse.studentsEnrolled=0
-    newCourse.teacherName = "Colt Steele"
-    Course.create(newCourse).then((createdCourse)=>{
-        res.json(createdCourse)
-    }).catch(err =>{console.err; res.send("error occured")})
-})
+app.post("/teacher/signup", teacher.signup )
+app.post("/teacher/login", teacher.login)
+
+//Student Routes
+
+app.post("/student/signup", student.signup)
+
+// API For Seeding the data 
+
+app.get("/api/seed/student/:times", seed.seedStudent)
+app.get("/api/seed/teacher/:times", seed.seedTeacher)
+app.get("/api/seed/course/new", seed.seedCourse)
 
 app.listen(3000, ()=>{
     console.log("Server is running")
