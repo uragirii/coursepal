@@ -1,0 +1,30 @@
+<% include partials/header %>
+<div class="container">
+    <div class="row justify-content-around">
+        <div class="col-md-5">
+            <br><br><br>
+            <h1 class="pb-2">Sign In</h1>
+            <p class="pb-4">Please Enter the following details to continue. Don't have an account? <a href="/signup">SignUp</a></p>
+
+            <form action="/student/login" method="POST">
+                <label class="sr-only" for="email">Email Address</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-at"></i></div>
+                    </div>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
+                </div>
+                <label class="sr-only" for="password">Password</label>
+                <div class="input-group py-4">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-key"></i></div>
+                        </div>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    </div>
+                <button class="btn btn-md btn-outline-success px-auto" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer%>

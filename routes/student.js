@@ -14,3 +14,27 @@ module.exports.signup = (req, res)=>{
         }).catch(err=>{console.error(err); res.send("Error occured")})
     })
 }
+
+module.exports.login = (req, res)=>{
+    let email = req.body.email
+    let pass = req.body.password
+
+    Student.findOne({email : email}).then(student=>{
+        if (bcrypt.compareSync(pass, student.hash)){
+            req.session.user = {
+                name : student.name,
+                type : "Student",
+                email : student.email
+            }
+            console.log("Logged in : "+student.name)
+            res.redirect("/dasboard")
+        }
+        else{
+            res.send("Password Incorrect")
+        }
+    })
+}
+
+module.exports.student = (req, res)=>{
+    res.send("Student Dashboard")
+}

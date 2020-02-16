@@ -28,8 +28,10 @@ app.use((req, res, next) => {
     if (req.cookies.user_sid && !req.session.user) {
         res.clearCookie('user_sid');        
     }
+    res.locals.user = req.session.user
     next();
 });
+app.set('views', __dirname+'/views')
 app.set("view engine","ejs");
 app.use(express.static(__dirname + "/public"));
 
@@ -42,7 +44,7 @@ const loggedIn = (req, res, next)=>{
         next();
     }
     else{
-        res.status(403).send("Unauthorized")
+        res.redirect("/unauthorized")
     }
 }
 
@@ -51,30 +53,44 @@ const loggedIn = (req, res, next)=>{
 app.get("/",(req, res)=>{
     res.render("index")
 })
-
-app.get("/courses", (req, res)=>{
-
-    let regex = ".+"
-    if (req.query.q){
-        let arr = req.query.q.split(" ")
-        let arr2 = arr.map(x => `.*${x}.*`)
-        regex = arr2.join("|")
-    }
-    Course.find({name : {$regex: regex, $options : 'i'}}).sort({ratings : "descending"}).limit(10).then(courses=>{
-        res.json(courses)
-    })
+app.get("/unauthorized", (req, res)=>{
+    res.render("unauth")
 })
+app.get("/dashboard", (req, res)=>{
+    // if(req.session.user.type === "Teacher"){
+    //     // Teacher Dashboard
+    //     teacher.dashboard(req, res)
+    // }
+    // else{
+    //     student.dashboard(req, res)
+    // }
+    req.session.user = {}
+    req.session.user.email = 'Monserrate_Lockman46@yahoo.com'
+    teacher.dashboard(req, res)
+})
+
+app.get("/courses", course.allCourses)
 app.post("/courses/new", course.new)
 
 // Teacher Routes
 
 app.post("/teacher/signup", teacher.signup )
+app.get("/teacher/login", (req, res)=>{
+    res.render("loginteacher")
+})
 app.post("/teacher/login", teacher.login)
-
+app.get("/logout", (req, res)=>{
+    res.clearCookie('user_ssid')
+    req.session.user = undefined
+    res.redirect("/")
+})
 //Student Routes
 
 app.post("/student/signup", student.signup)
-
+app.get("/student/login", (req, res)=>{
+    res.render("loginStudent")
+})
+app.post("/student/login", student.login)
 // API For Seeding the data 
 
 app.get("/api/seed/student/:times", seed.seedStudent)

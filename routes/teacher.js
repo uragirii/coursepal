@@ -32,10 +32,21 @@ module.exports.login = (req, res)=>{
                 email : teacher.email
             }
             console.log("Logged In : "+teacher.name)
-            res.send("Logged In")
+            res.redirect("/dashboard")
         }
         else{
             res.send('Password incorrect')
+        }
+    })
+}
+
+module.exports.dashboard = (req, res) =>{
+    Teacher.findOne({email : req.session.user.email}).populate("courses").exec((err, teacher)=>{
+        if(err){
+            console.error(err)
+        }
+        else{
+            res.render("dashboard", {courses : teacher.courses})
         }
     })
 }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CoursePal | Destination of all your learning needs</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+        <a class="navbar-brand" href="/">CoursePal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <% if(!user) { %>
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <% }else{ %>
+                    <a class="nav-link" href="/dashboard">Dashboard <span class="sr-only">(current)</span></a>
+                <%}%>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/courses">View All Courses</a>
+            </li>
+            
+          </ul>
+          <form class="form-inline my-2 my-lg-0 mr-3" method="GET" action="/courses">
+            <input class="form-control mr-sm-2" name="q" type="search" placeholder="Search Courses" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          <ul class="navbar-nav mr-4">
+            <% if(!user){ %>
+              <li class="nav-item">
+                <a class="nav-link" href="/teacher">Teach on CoursePal <span class="sr-only">(current)</span></a>
+              </li>
+            <% }else if (user.type ==="Teacher"){%>
+              <li class="nav-item">
+                <a class="nav-link" href="/course/new">Add New Course <span class="sr-only">(current)</span></a>
+              </li>
+            <%}%>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <% if(!user){ %>
+                    Login
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/student/login">As Student</a>
+                    <a class="dropdown-item" href="/teacher/login">As Instructor</a>
+                  </div>
+                  <%} else {%>
+                    <%if (user.type ==="Teacher"){%>
+                    <img src="<%=user.avatarUrl%>" class="rounded-circle" alt="<%=user.name%>" width="30px">
+                    <%}%>
+                    <%=user.name%>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                </div>
+                <%}%>
+              </li>
+          </ul>
+        </div>
+        </div>
+      </nav>

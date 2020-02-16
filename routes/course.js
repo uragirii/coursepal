@@ -21,3 +21,16 @@ module.exports.new = (req, res)=>{
         res.json(createdCourse)
     }).catch(err =>{console.err; res.send("error occured")})
 }
+
+module.exports.allCourses = (req, res)=>{
+
+    let regex = ".+"
+    if (req.query.q){
+        let arr = req.query.q.split(" ")
+        let arr2 = arr.map(x => `.*${x}.*`)
+        regex = arr2.join("|")
+    }
+    Course.find({name : {$regex: regex, $options : 'i'}}).sort({ratings : "descending"}).limit(10).then(courses=>{
+        res.json(courses)
+    })
+}
