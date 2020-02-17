@@ -1,0 +1,75 @@
+<% include partials/header %>
+
+
+
+
+<div class="container my-5">
+    <h1 class="display-4"><%=course.name%></h1>
+    <p class="lead"><em>Rated <%=course.ratings%>/5 by fellow learners</em> <span class="ml-5">Enrolled by more than <%=course.studentsEnrolled%></span></p>
+    <p class="mt-2 lead">Created By : <%=course.teacherName%></p>
+    <p><i class="fas fa-language"></i>  <%=course.language%></p>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h5>Course Description:</h5>
+            <p class="mt-4"><%=course.desc%></p>
+            <h5 class="my-4">Course Contents:</h5>
+            <div>
+                <div class="accordion my-3" id="accordionExample">
+                    <%course.content.forEach((value,i) =>{%>
+                        <div class="card">
+                            <div class="card-header" id="heading_<%=i%>">
+                              <h2 class="mb-0">
+                                <button class="btn btn-link row" type="button" data-toggle="collapse" data-target="#collapse_<%=i%>" aria-expanded="true" aria-controls="collapse_<%=i%>">
+                                    <i class="far fa-plus-square"></i> <%=value.name%> <span class="ml-5 badge badge-primary text-wrap"><%=value.sections.length%> lectures</span> <span class="ml-5 badge badge-primary text-wrap"><%=value.time%>hrs</span>
+                                </button>
+                              </h2>
+                            </div>
+                        
+                            <div id="collapse_<%=i%>" class="collapse show" aria-labelledby="heading_<%=i%>" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                    <%value.sections.forEach(section =>{%>
+                                            <li class="list-group-item"><%=section%></li>
+                                    <%})%>
+                                    </ul>
+                                </div>
+                            </div>
+                          </div>
+                    <%})%>                   
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 card container mb-4">
+            <h5 class="py-4">Preview This course:</h5>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+            </div>
+            <h4 class="text-center mt-4"><s class="mr-2">Rs.<%=course.cost%></s>Free</h4>
+            <%if(user && user.type==="Teacher"){ %>
+                <button class="text-center mt-4 btn btn-primary" disabled>Teacher cannot enroll in courses</button>
+            <% }else if(enrolled){ %>
+                <button class="text-center mt-4 btn btn-primary">Already Enrolled</button>
+
+            <%} else {%>
+                <button class="text-center mt-4 btn btn-primary" onclick="location.href='/student/enroll/<%=course._id%>'" ><s class="mr-2">Buy Now</s>Enroll Now</button>
+
+            <%}%>
+            
+            <p class="text-center"><small>30 day money back guarantee</small></p>
+           
+                <div class="card-header text-center m-0 px-0 pb-0 pt-2">
+                    This course contains:
+                  </div>
+                  <ul class="list-group list-group-flush text-center m-0 p-0">
+                    <li class="list-group-item"><%=course.totalTime%>hrs of video lectures</li>
+                    <li class="list-group-item">Projects and Assignments</li>
+                    <li class="list-group-item">Certificate of Completion</li>
+                  </ul>
+
+        </div>
+    </div>
+    
+</div>
+
+<% include partials/footer%>

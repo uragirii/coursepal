@@ -1,0 +1,37 @@
+<% include ./partials/header %>
+<div class="container">
+    <div class="row justify-content-around">
+        <div class="col-md-5">
+            <br> <br><br>
+            <h1 class="pb-2">Create New Account</h1>
+            <p>Please enter the following information for us to create your account.</p>
+            <p class="pb-2">Don't worry it would take a minute to fill the boxes.</p>
+            <hr color="lightgray">
+            <form action="/student/signup" method="POST">
+                <label for="name">What should we call you?</label>
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-user-circle"></i></div>
+                    </div>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
+                </div>
+                <label for="email">Where can we reach you?</label>
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-at"></i></div>
+                    </div>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
+                </div>
+                <label for="password">Password</label>
+                <div class="input-group pb-4">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-key"></i></div>
+                        </div>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    </div>
+                <button class="btn btn-md btn-outline-success px-auto" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<% include ./partials/footer %>

@@ -67,25 +67,38 @@ app.get("/dashboard",loggedIn, (req, res)=>{
 })
 
 app.get("/courses", course.allCourses)
+app.get("/courses/new", (req, res)=>{
+    res.render("newcourse")
+})
 app.post("/courses/new", course.new)
-
+app.get("/course/:id", course.course)
 // Teacher Routes
 
 app.post("/teacher/signup", teacher.signup )
 app.get("/teacher/login", (req, res)=>{
     res.render("loginteacher")
 })
+app.get("/error", (req, res)=>{
+    res.render("error")
+})
+
 app.post("/teacher/login", teacher.login)
+app.get('/teacher/signup', (req, res)=>{
+    res.render("signupTeacher")
+})
 app.get("/logout", (req, res)=>{
     res.clearCookie('user_ssid')
     req.session.user = undefined
     res.redirect("/")
 })
 //Student Routes
-
+app.get("/student/enroll/:id", loggedIn,student.enrollCourse)
 app.post("/student/signup", student.signup)
 app.get("/student/login", (req, res)=>{
     res.render("loginStudent")
+})
+app.get('/student/signup', (req, res)=>{
+    res.render("signupStudent")
 })
 app.post("/student/login", student.login)
 // API For Seeding the data 
@@ -94,6 +107,9 @@ app.get("/api/seed/student/:times", seed.seedStudent)
 app.get("/api/seed/teacher/:times", seed.seedTeacher)
 app.get("/api/seed/course/new", seed.seedCourse)
 
+app.get("/*", (req, res)=>{
+    res.render("404")
+})
 app.listen(3000, ()=>{
     console.log("Server is running")
 })

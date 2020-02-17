@@ -38,3 +38,16 @@ module.exports.allCourses = (req, res)=>{
         res.render("courses", payload)
     })
 }
+
+module.exports.course = (req, res)=>{
+    Course.findById(req.params.id).populate("author").then(course=>{
+        if(course){
+            let enroll = false
+            if(req.session.user && req.session.user.type!=="Teacher"){
+                console.log(req.session.user.courses.includes(req.params.id))
+                enroll = req.session.user.courses.includes(req.params.id)
+            }
+            res.render("course", {course: course, enrolled:enroll})
+        }
+    }).catch(err=>{console.log(err)})
+}

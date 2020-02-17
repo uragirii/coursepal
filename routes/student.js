@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const Student = require("../models/Student")
-const Teacher = require("../models/Teacher")
+const Course = require("../models/Course")
 
 
 module.exports.signup = (req, res)=>{
@@ -12,7 +12,7 @@ module.exports.signup = (req, res)=>{
             hash
         }
         Student.create(newStudent).then((createdStudent)=>{
-            res.json(createdStudent)
+            res.redirect("/student/login")
         }).catch(err=>{console.error(err); res.send("Error occured")})
     })
 }
@@ -21,15 +21,18 @@ module.exports.login = (req, res)=>{
     let email = req.body.email
     let pass = req.body.password
 
-    Student.findOne({email : email}).then(student=>{
+    Student.findOne({email : email}).populate().then(student=>{
         if (bcrypt.compareSync(pass, student.hash)){
+            let courses = []
+            student.courses.forEach(course=> courses.push(course._id))
             req.session.user = {
                 name : student.name,
                 type : "Student",
-                email : student.email
+                email : student.email,
+                courses: courses
             }
             console.log("Logged in : "+student.name)
-            res.redirect("/dasboard")
+            res.redirect("/dashboard")
         }
         else{
             res.send("Password Incorrect")
@@ -38,7 +41,7 @@ module.exports.login = (req, res)=>{
 }
 
 module.exports.dashboard = (req, res)=>{
-    Teacher.findOne({email : req.session.user.email}).populate("courses").exec((err, student)=>{
+    Student.findOne({email : req.session.user.email}).populate("courses").exec((err, student)=>{
         if(err){
             console.error(err)
         }
@@ -46,4 +49,16 @@ module.exports.dashboard = (req, res)=>{
             res.render("dashboardStudent", {courses : student.courses})
         }
     })
+}
+
+module.exports.enrollCourse = (req, res)=>{
+    Course.findById(req.params.id).then(course=>{
+        Student.findOne({email: req.session.user.email}).then(student=>{
+            student.courses.push(course)
+            course.studentsEnrolled += 1
+            student.save()
+            course.save()
+            res.redirect("/course/"+req.params.id)
+        })
+    }).catch(err => {res.send("Err")})
 }
