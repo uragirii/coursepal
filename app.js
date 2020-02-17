@@ -56,17 +56,14 @@ app.get("/",(req, res)=>{
 app.get("/unauthorized", (req, res)=>{
     res.render("unauth")
 })
-app.get("/dashboard", (req, res)=>{
-    // if(req.session.user.type === "Teacher"){
-    //     // Teacher Dashboard
-    //     teacher.dashboard(req, res)
-    // }
-    // else{
-    //     student.dashboard(req, res)
-    // }
-    req.session.user = {}
-    req.session.user.email = 'Monserrate_Lockman46@yahoo.com'
-    teacher.dashboard(req, res)
+app.get("/dashboard",loggedIn, (req, res)=>{
+    if(req.session.user.type === "Teacher"){
+        // Teacher Dashboard
+        teacher.dashboard(req, res)
+    }
+    else{
+        student.dashboard(req, res)
+    }
 })
 
 app.get("/courses", course.allCourses)

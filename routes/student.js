@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt')
 const Student = require("../models/Student")
+const Teacher = require("../models/Teacher")
+
 
 module.exports.signup = (req, res)=>{
     // TODO: Check if email is already taken
@@ -35,6 +37,13 @@ module.exports.login = (req, res)=>{
     })
 }
 
-module.exports.student = (req, res)=>{
-    res.send("Student Dashboard")
+module.exports.dashboard = (req, res)=>{
+    Teacher.findOne({email : req.session.user.email}).populate("courses").exec((err, student)=>{
+        if(err){
+            console.error(err)
+        }
+        else{
+            res.render("dashboardStudent", {courses : student.courses})
+        }
+    })
 }

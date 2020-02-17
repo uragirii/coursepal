@@ -1,0 +1,33 @@
+<% include partials/header %>
+
+<div class="container mt-4">
+    <h5 class="display-4 my-4">My Courses:</h5>
+    <div class="card-deck">
+        <% courses.forEach(course=> { %>
+            <div class="card mt-3" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><%=course.name%></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Rated <%=course.ratings%></h6>
+                    <p class="card-text"><%=course.desc.slice(0,100)%></p>
+                    <!-- TODO: Add Read more function -->
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Students Enrolled : <%=course.studentsEnrolled%></li>
+                        <li class="list-group-item">
+                            <div class="progress">
+                                <% let progress = Math.floor(Math.random()*100)%>
+                                <div class="progress-bar" role="progressbar" style="width: <%=progress%>%;" aria-valuenow="<%=Math.floor(Math.random()*100)%>" aria-valuemin="0" aria-valuemax="100"><%=progress%>% Completed</div>
+                              </div>
+                        </li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="/course/<%=course._id%>" class="card-link">Resume Course</a>
+                      </div>
+            </div>
+            </div>
+        <%})%>
+    </div>
+    
+</div>
+
+
+<% include partials/footer%>

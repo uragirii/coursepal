@@ -46,7 +46,7 @@ module.exports.dashboard = (req, res) =>{
             console.error(err)
         }
         else{
-            res.render("dashboard", {courses : teacher.courses})
+            res.render("dashboardTeacher", {courses : teacher.courses})
         }
     })
 }

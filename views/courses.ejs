@@ -1,0 +1,39 @@
+<% include partials/header %>
+    <div class="container">    
+<% if (query){ %>
+        <h3>Search Results</h3>
+    <%} else { %>
+        <h3 class="">All the courses that we provide:</h3>
+    <%}%>
+    <div class="row">
+        <% courses.forEach(course=> { %>
+            <div class="col-md-6">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div class="row mr-0">
+                            <div class="col-8">
+                                <h5 class="card-title"><%=course.name%></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Taught by : <%=course.teacherName%></h6>
+                            </div>
+                            <div class="col-4">
+                                <h1><%=course.ratings%>/5</h1>
+                            </div>
+                            </div>
+                        <p class="card-text"><%=course.desc.slice(0,100)%></p>
+                        <!-- TODO: Add Read more function -->
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Students Enrolled : <%=course.studentsEnrolled%></li>
+                            <li class="list-group-item">
+                                Completion Time : <%=course.totalTime%>hrs
+                            </li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="/course/<%=course._id%>" class="card-link">Go to Course Page</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <%})%>
+    </div>
+</div>
+<% include partials/footer%>

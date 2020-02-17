@@ -23,14 +23,18 @@ module.exports.new = (req, res)=>{
 }
 
 module.exports.allCourses = (req, res)=>{
-
+    let payload = {
+        query : false
+    }
     let regex = ".+"
     if (req.query.q){
         let arr = req.query.q.split(" ")
         let arr2 = arr.map(x => `.*${x}.*`)
         regex = arr2.join("|")
+        payload.query = true
     }
     Course.find({name : {$regex: regex, $options : 'i'}}).sort({ratings : "descending"}).limit(10).then(courses=>{
-        res.json(courses)
+        payload.courses = courses
+        res.render("courses", payload)
     })
 }
