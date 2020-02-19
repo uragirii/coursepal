@@ -52,5 +52,8 @@ module.exports.course = (req, res)=>{
             }
             res.render("course", {course: course, enrolled:enroll})
         }
+        else{
+            res.render("404")
+        }
     }).catch(err =>{console.log(err); res.redirect("/error")})
 }
