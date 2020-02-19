@@ -37,7 +37,6 @@ app.use(express.static(__dirname + "/public"));
 
 mongoose.connect("mongodb://localhost:27017/coursepal", {useNewUrlParser:true})
 
-// TODO: Make custom Unauthorized page
 
 const loggedIn = (req, res, next)=>{
     if (req.session.user && req.cookies.user_sid){
@@ -53,9 +52,22 @@ const loggedIn = (req, res, next)=>{
 app.get("/",(req, res)=>{
     res.render("index")
 })
+app.get("/logout",loggedIn, (req, res)=>{
+    res.clearCookie('user_ssid')
+    req.session.user = undefined
+    res.redirect("/")
+})
 app.get("/unauthorized", (req, res)=>{
     res.render("unauth")
 })
+app.get("/error", (req, res)=>{
+    res.render("error")
+})
+app.get("/teacher", (req, res)=>{
+    res.render("teacher")
+})
+
+
 app.get("/dashboard",loggedIn, (req, res)=>{
     if(req.session.user.type === "Teacher"){
         // Teacher Dashboard
@@ -67,38 +79,36 @@ app.get("/dashboard",loggedIn, (req, res)=>{
 })
 
 app.get("/courses", course.allCourses)
-app.get("/courses/new", (req, res)=>{
-    res.render("newcourse")
+app.get("/course/new",loggedIn, (req, res)=>{
+    if(req.session.user.type !=="Teacher"){
+        res.redirect("/unauthorized")
+    }else{
+        res.render("newcourse")
+    }
 })
-app.post("/courses/new", course.new)
+app.post("/course/new",loggedIn, course.new)
 app.get("/course/:id", course.course)
 // Teacher Routes
 
 app.post("/teacher/signup", teacher.signup )
 app.get("/teacher/login", (req, res)=>{
-    res.render("loginteacher")
+    res.render("loginteacher", {flash : undefined})
 })
-app.get("/error", (req, res)=>{
-    res.render("error")
-})
+
 
 app.post("/teacher/login", teacher.login)
 app.get('/teacher/signup', (req, res)=>{
-    res.render("signupTeacher")
+    res.render("signupTeacher", {flash : undefined})
 })
-app.get("/logout", (req, res)=>{
-    res.clearCookie('user_ssid')
-    req.session.user = undefined
-    res.redirect("/")
-})
+
 //Student Routes
 app.get("/student/enroll/:id", loggedIn,student.enrollCourse)
 app.post("/student/signup", student.signup)
 app.get("/student/login", (req, res)=>{
-    res.render("loginStudent")
+    res.render("loginStudent", {flash : undefined})
 })
 app.get('/student/signup', (req, res)=>{
-    res.render("signupStudent")
+    res.render("signupStudent",  {flash : undefined})
 })
 app.post("/student/login", student.login)
 // API For Seeding the data 

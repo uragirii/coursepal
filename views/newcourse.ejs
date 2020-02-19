@@ -1,0 +1,96 @@
+<% include partials/header %>
+<div class="container">
+    <form action="/course/new" method="POST">
+
+    <h1 class="my-4">Create New Course</h1>
+
+    <div class="row justify-content-between">
+        <div class="col-md-5">
+            <div class="py-2">
+                <h4 class="pb-2">General Information</h4>
+                <p>Please fill following information about the course you want to create</p>
+            </div>
+            <hr color="lightgray">
+                <label for="name">Name of Course</label>
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-file-signature"></i></div>
+                    </div>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
+                </div>
+                <label for="language">Language of Course</label>
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-language"></i></div>
+                    </div>
+                    <input type="text" class="form-control" name="language" id="language" placeholder="Language" required>
+                </div>
+                <label for="time">Total Duration of Course</label>
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <input type="number" class="form-control" name="totalTime" id="totalTime" placeholder="Total Time" required>
+                </div>
+                <label for="cost">Total Cost of Course</label>
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-rupee-sign"></i></div>
+                    </div>
+                    <input type="number" class="form-control" name="cost" id="cost" placeholder="Total Cost" required>
+                </div>
+                <label for="desc">Describe course</label>
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-info-circle"></i></div>
+                    </div>
+                    <textarea class="form-control" name="desc" id="desc" placeholder="Descibe contents of the course" required></textarea>
+                </div>
+
+
+                <hr color="lightgray" width="25%">
+               
+        </div>
+        <div class="col-md-6">
+            <div class="pt-2">
+                <h4 class="pb-2">Sections of Course</h4>
+                <p class="pb-1 mb-1">Descibe in detail each section of the course</p>
+                <p>Courses can be divided into sections, which are further divided into subsections</p>
+            </div>
+            <hr color="lightgray">
+            <div id="sections">
+            <h5>Section 1</h5>
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Name</div>
+                    </div>
+                    <input type="text" class="form-control" name="content[0][name]"  placeholder="Section Name" required>
+                </div>
+                <div class="input-group pb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Time Alloted</div>
+                    </div>
+                    <input type="number" class="form-control" name="content[0][time]"  placeholder="Hours alloted for this section" required>
+                </div>
+                <div class="row">
+                    <div class="col-6 align-self-center text-center">
+                        <h6>Sub-Sections</h6>
+                        <button class="badge badge-success btn addSub" id="sub_0"><i class="fas fa-plus-circle"></i> Add a Sub Section</button>
+                    </div>
+                    <div class="col-6" id="sub_text_0">
+                        <input type="text" class="form-control" name="content[0][sections][]"  placeholder="Subsection Name" required>
+                        <input type="text" class="form-control" name="content[0][sections][]"  placeholder="Subsection Name" required>
+                        <input type="text" class="form-control" name="content[0][sections][]"  placeholder="Subsection Name" required>
+                        
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-sm btn-primary mb-2" id="newSection">Add a new Section</button>
+            <br>
+            <button class="btn btn-md btn-outline-success px-auto my-3" id="submit" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<% include partials/footer%>
+<script src="/js/form.js"></script>

@@ -5,6 +5,11 @@ const Course = require("../models/Course")
 
 module.exports.signup = (req, res)=>{
     // TODO: Check if email is already taken
+    Student.findOne({email: req.body.email}).then(student=>{
+        if(student){
+            res.render("signupStudent", {flash : "email"})
+        }
+    })
     bcrypt.hash(req.body.password,10).then((hash)=>{
         newStudent = {
             name : req.body.name,
@@ -13,8 +18,8 @@ module.exports.signup = (req, res)=>{
         }
         Student.create(newStudent).then((createdStudent)=>{
             res.redirect("/student/login")
-        }).catch(err=>{console.error(err); res.send("Error occured")})
-    })
+        }).catch(err =>{console.log(err); res.redirect("/error")})
+    }).catch(err =>{console.log(err); res.redirect("/error")})
 }
 
 module.exports.login = (req, res)=>{
@@ -22,6 +27,9 @@ module.exports.login = (req, res)=>{
     let pass = req.body.password
 
     Student.findOne({email : email}).populate().then(student=>{
+        if(!student){
+            res.render("loginStudent", {flash : "email"})
+        }
         if (bcrypt.compareSync(pass, student.hash)){
             let courses = []
             student.courses.forEach(course=> courses.push(course._id))
@@ -35,15 +43,17 @@ module.exports.login = (req, res)=>{
             res.redirect("/dashboard")
         }
         else{
-            res.send("Password Incorrect")
+            //TODO Do something about incorrect password
+            res.render("loginStudent", {flash : "password"})
         }
-    })
+    }).catch(err =>{console.log(err); res.redirect("/error")})
 }
 
 module.exports.dashboard = (req, res)=>{
     Student.findOne({email : req.session.user.email}).populate("courses").exec((err, student)=>{
         if(err){
             console.error(err)
+            res.redirect("/error")
         }
         else{
             res.render("dashboardStudent", {courses : student.courses})
@@ -58,7 +68,8 @@ module.exports.enrollCourse = (req, res)=>{
             course.studentsEnrolled += 1
             student.save()
             course.save()
+            req.session.user.courses.push(req.params.id)
             res.redirect("/course/"+req.params.id)
-        })
-    }).catch(err => {res.send("Err")})
+        }).catch(err =>{console.log(err); res.redirect("/error")})
+    }).catch(err =>{console.log(err); res.redirect("/error")})
 }

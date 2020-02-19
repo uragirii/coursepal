@@ -1,9 +1,9 @@
 <% include partials/header %>
     <div class="container">    
 <% if (query){ %>
-        <h3>Search Results</h3>
+        <h3 class="my-5">Search Results</h3>
     <%} else { %>
-        <h3 class="">All the courses that we provide:</h3>
+        <h3 class="my-5">All the courses that we provide:</h3>
     <%}%>
     <div class="row">
         <% courses.forEach(course=> { %>

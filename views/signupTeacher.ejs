@@ -1,9 +1,20 @@
 <% include ./partials/header %>
 <div class="container">
+    <% if(flash) { %>
+        <% if(flash === 'email') {%>
+            <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+                <strong>Email Already Taken</strong> An account already exists with the email you have entered. Please enter different email, or you can login <a href="/teacher/login" class="alert-link">here</a>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+        <%}%>
+    <%}%>
+
     <div class="row justify-content-around">
         <div class="col-md-5">
             <br><br>
-            <h1 class="pb-2">Create New Account</h1>
+            <h1 class="pb-2">Create New Account </h1>
             <p>Please enter the following information for us to create your account.</p>
             <p class="pb-2">Don't worry it would take a minute to fill the boxes.</p>
             <hr color="lightgray">

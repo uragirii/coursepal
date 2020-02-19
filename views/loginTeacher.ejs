@@ -1,10 +1,29 @@
 <% include partials/header %>
 <div class="container">
+    <% if(flash) { %>
+        <% if(flash === 'email') {%>
+            <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+                <strong>Email not found</strong> Please make sure that you have entered correct email. If you dont have account, you can create one at <a href="/teacher/signup" class="alert-link">Signup</a>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+        <%}%>
+        <% if(flash === 'password') {%>
+            <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+                <strong>Password is incorrect</strong> The password you have entered do not match with the email you have entered. Please enter again.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+        <%}%>
+    <%}%>
+
     <div class="row justify-content-around">
         <div class="col-md-5">
-            <br><br><br>
+            <br><br>
             <h1 class="pb-2">Sign In</h1>
-            <p class="pb-4">Please Enter the following details to continue. Don't have an account? <a href="/signup">SignUp</a></p>
+            <p class="pb-4">Please Enter the following details to continue. Don't have an account? <a href="/teacher/signup">SignUp</a></p>
 
             <form action="/teacher/login" method="POST">
                 <label class="sr-only" for="email">Email Address</label>
