@@ -2,8 +2,6 @@ const db = require("../database/database")
 
 
 module.exports.new = (req, res)=>{
-    // console.log(JSON.stringify(req.body))
-    // res.send("ok")
     if(!req.session.user || !req.session.user.type === "Teacher"){
         res.send("Unauthorized")
     }
@@ -44,7 +42,6 @@ module.exports.course = (req, res)=>{
         if(course){
             let enroll = false
             if(req.session.user && req.session.user.type!=="Teacher"){
-                console.log(req.session.user.courses.includes(req.params.id))
                 enroll = req.session.user.courses.includes(req.params.id)
             }
             res.render("course", {course: course, enrolled:enroll})

@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
-const seed = require("./routes/seed")
 const student = require("./routes/student")
 const teacher = require("./routes/teacher")
 const course = require("./routes/course")
@@ -31,8 +30,6 @@ app.use((req, res, next) => {
 app.set('views', __dirname+'/views')
 app.set("view engine","ejs");
 app.use(express.static(__dirname + "/public"));
-
-mongoose.connect("mongodb://localhost:27017/coursepal", {useNewUrlParser:true})
 
 
 const loggedIn = (req, res, next)=>{
@@ -110,15 +107,10 @@ app.get('/student/signup', (req, res)=>{
 app.post("/student/login", student.login)
 // API For Seeding the data 
 app.post("/api/student/new", (req, res)=>{
-    console.log(req.body)
     db.addStudent(req.body).then(()=>{
         res.send("Ok")
     }).catch(err=>{console.log(err);res.send("err")})
 })
-
-app.get("/api/seed/student/:times", seed.seedStudent)
-app.get("/api/seed/teacher/:times", seed.seedTeacher)
-app.get("/api/seed/course/new", seed.seedCourse)
 
 app.get("/*", (req, res)=>{
     res.render("404")

@@ -83,16 +83,21 @@ module.exports.populate = (type, key, data)=>{
     return new Promise((resolve, reject)=>{
         let populated = []
         let processed = 0
-        data[key].forEach((id, i, arr)=>{
-            readFile(`./database/data/${type}/${id}.json`).then(courseData=>{
-                populated.push(JSON.parse(courseData))
-                processed++;
-                if(processed === arr.length){
-                    data[key] = populated
-                    resolve(data)
-                }
-            }).catch(err=>{reject(err)})
-        })
+        if(data[key].length<1){
+            resolve(data)
+        }
+        else{
+            data[key].forEach((id, i, arr)=>{
+                readFile(`./database/data/${type}/${id}.json`).then(courseData=>{
+                    populated.push(JSON.parse(courseData))
+                    processed++;
+                    if(processed === arr.length){
+                        data[key] = populated
+                        resolve(data)
+                    }
+                }).catch(err=>{reject(err)})
+            })
+        }
     })
 }
 
