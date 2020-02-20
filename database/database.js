@@ -82,13 +82,17 @@ module.exports.findOne = (type, id)=>{
 module.exports.populate = (type, key, data)=>{
     return new Promise((resolve, reject)=>{
         let populated = []
-        data[key].forEach(id=>{
+        let processed = 0
+        data[key].forEach((id, i, arr)=>{
             readFile(`./database/data/${type}/${id}.json`).then(courseData=>{
-                populated.push(courseData)
+                populated.push(JSON.parse(courseData))
+                processed++;
+                if(processed === arr.length){
+                    data[key] = populated
+                    resolve(data)
+                }
             }).catch(err=>{reject(err)})
         })
-        data[key] = populated
-        resolve(data)
     })
 }
 

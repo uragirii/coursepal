@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt')
-// const Teacher = require("../models/Teacher")
 const db = require("../database/database")
 
 module.exports.signup = (req, res)=>{

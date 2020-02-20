@@ -1,6 +1,4 @@
 const bcrypt = require('bcrypt')
-// const Student = require("../models/Student")
-// const Course = require("../models/Course")
 const db = require('../database/database')
 
 module.exports.signup = (req, res)=>{
@@ -58,13 +56,9 @@ module.exports.dashboard = (req, res)=>{
 }
 
 module.exports.enrollCourse = (req, res)=>{
-    
-    Course.findById(req.params.id).then(course=>{
-        Student.findOne({email: req.session.user.email}).then(student=>{
-            student.courses.push(course)
-            course.studentsEnrolled += 1
-            student.save()
-            course.save()
+    db.findOne("students", req.session.user.email).then(student=>{
+        student.courses.push(req.params.id)
+        db.saveData("students", req.session.user.email, student).then(()=>{
             req.session.user.courses.push(req.params.id)
             res.redirect("/course/"+req.params.id)
         }).catch(err =>{console.log(err); res.redirect("/error")})

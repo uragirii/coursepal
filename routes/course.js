@@ -1,5 +1,3 @@
-// const Teacher = require("../models/Teacher")
-// const Course = require("../models/Course")
 const db = require("../database/database")
 
 

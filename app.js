@@ -2,14 +2,11 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
-const mongoose = require('mongoose')
 const seed = require("./routes/seed")
 const student = require("./routes/student")
 const teacher = require("./routes/teacher")
 const course = require("./routes/course")
 const db = require("./database/database")
-//Models
-
 
 const app = express()
 
