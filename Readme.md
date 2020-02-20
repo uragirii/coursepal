@@ -1,5 +1,6 @@
 # CoursePal
 ### Destination to all your learning needs
+***Note : This branch of the repo uses JSON files to store data***
 
 This site is an example MOOC website made as a mid-term project for PayPal VAP course. This project implements Authorization, Course Addition, Course Enrollment etc.
 
@@ -26,12 +27,13 @@ All the routes in the websites can be categorized into following categories:
     - [`/student/login`](/screenshots/signin.png) - Student Login : Login page for a Student. Shows message if password is incorrect
     - `/student/enroll/:id`- Enroll course : This webpage enrolls user in the course with given the course ID.
     - [`/dashboard`](/screenshots/teacher_dashboard.png) - Dashboard : This is a common route for student and teacher and require authorization to access. Contents of this page changes depending on the login type.
-- API routes/Data seed routes : These routes can be used to create fake data for students/teachers/courses.
-  - `/api/seed/student/:times` - Generate Student data : It generates "`times`" number of fake students in the database.
-  - `/api/seed/teacher/:times` - Generate Teacher data : It generates "`times`" number of fake teachers in the database.
-  - `/api/seed/course/new` - Generates course : It creates a new course in the database.
+    
+~- API routes/Data seed routes : These routes can be used to create fake data for students/teachers/courses.~
+  ~- `/api/seed/student/:times` - Generate Student data : It generates "`times`" number of fake students in the database.~
+  ~- `/api/seed/teacher/:times` - Generate Teacher data : It generates "`times`" number of fake teachers in the database.~
+  ~- `/api/seed/course/new` - Generates course : It creates a new course in the database.~
   
-  Please note that password for all the fake accounts will be `password`.
+  ~Please note that password for all the fake accounts will be `password`.~
   
   ---
   ## Modules Used
@@ -42,10 +44,10 @@ All the routes in the websites can be categorized into following categories:
   - [`ejs`](https://www.npmjs.com/package/ejs) - Used for making templates.
   - [`express`](https://www.npmjs.com/package/express) - Used for handling requests at the back-end
   - [`faker`](https://www.npmjs.com/package/faker) - This package is not required for production. It is only developement purpose for making fake data.
-  - [`mongoose`](https://www.npmjs.com/package/mongoose) - Used for connecting MongoDB database.
+  ~- [`mongoose`](https://www.npmjs.com/package/mongoose) - Used for connecting MongoDB database.~
   ---
   ## Install and Run
-  For running this project, make sure you have `MongoDB` installed and `Mongo Demon` running in the background.
+  ~For running this project, make sure you have `MongoDB` installed and `Mongo Demon` running in the background.~
   
   Clone the Repo and run command `npm install .`This will install all the dependencies. 
 
