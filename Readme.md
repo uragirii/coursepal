@@ -43,3 +43,7 @@ All the routes in the websites can be categorized into following categories:
   Clone the Repo and run command `npm install .`This will install all the dependencies. 
 
   After this run command `node .` or `node app.js` The server will run on the port `3000`. Go to `localhost:3000` for viewing the website.
+  
+ ---
+ ## Screenshots
+ You can view screenshots for each route by clicking on the [routes](https://github.com/uragirii/coursepal#routes). For some pages multiple screenshots are present. You can view all the screenshots in the [`screenshots`](/screenshots) directory. 
