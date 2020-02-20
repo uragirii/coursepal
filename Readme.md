@@ -1,6 +1,8 @@
 # CoursePal
 ### Destination to all your learning needs
 
+***Note: This branch uses MongoDB as Database. You need to install MongoDB client. Or you can switch to [`jsonDB`](https://github.com/uragirii/coursepal/blob/jsonDB/) branch, which uses JSON files to store the data.***
+
 This site is an example MOOC website made as a mid-term project for PayPal VAP course. This project implements Authorization, Course Addition, Course Enrollment etc.
 
 ![CoursePal](/screenshots/home_1.png)
