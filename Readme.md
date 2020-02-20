@@ -3,38 +3,39 @@
 
 This site is an example MOOC website made as a mid-term project for PayPal VAP course. This project implements Authorization, Course Addition, Course Enrollment etc.
 
+![CoursePal](/screenshots/home_1.png)
 ---
 ## Routes
 All the routes in the websites can be categorized into following categories:
 - General Routes:
   These routes are simple and contains not much meta information about the website. These includes:
-    -   `/` - Home Route : Landing Page
-    -   `/teacher` - Teacher Route : A route to welcome instructors on our portal
-    -   `/unauthorised` - Unauthorized : Whenever user tries to access and authorized route but is not logged in, the page redirected to this page
-    -   `/error` - Error : Whenever any error occurs the user is redirected to this route.
-    -   `/*` - 404 Page Not found 
+    -   [`/`](/screenshots/home_1.png) - Home Route : Landing Page
+    -   [`/teacher`](/screenshots/teacher_1.png) - Teacher Route : A route to welcome instructors on our portal
+    -   [`/unauthorised`](/screenshots/unauth.png) - Unauthorized : Whenever user tries to access and authorized route but is not logged in, the page redirected to this page
+    -   [`/error`](/screenshots/error.png) - Error : Whenever any error occurs the user is redirected to this route.
+    -   [`/*`](/screenshots/404.png) - 404 Page Not found 
 - Student/Teacher/Course:
   These routes are essential for the website and display information for each courses, login/signup page.
-    - `/courses` - Courses : A page to display all the courses in the database
-    - `/courses?q=` - Search Course : This is same route as before, it just enables user to search courses in the database.
-    - `/course/new` - Add course : This route requires authorization and can only be accessed by a `Teacher`
-    - `/course/:id` - Display course : This route displays all the information about specific course. The contents changes depending login status.
-    - `/teacher/signup` - Teacher Signup : Signup Page for a Teacher. Show message if email is already taken.
-    - `/teacher/login` - Teacher Login : Login page for a teacher. Shows message if password is incorrect.
-    - `/student/signup` - Student Signup : Signup page for a Student. Shows message is email is alredy taken.
-    - `/student/login` - Student Login : Login page for a Student. Shows message if password is incorrect
+    - [`/courses`](/screenshots/courses.png) - Courses : A page to display all the courses in the database
+    - [`/courses?q=`](/screenshots/search.png) - Search Course : This is same route as before, it just enables user to search courses in the database.
+    - [`/course/new`](/screenshots/new_course.png) - Add course : This route requires authorization and can only be accessed by a `Teacher`
+    - [`/course/:id`](/screenshots/course.png) - Display course : This route displays all the information about specific course. The contents changes depending login status.
+    - [`/teacher/signup`](/screenshots/teacher_signup.png) - Teacher Signup : Signup Page for a Teacher. Show message if email is already taken.
+    - [`/teacher/login`](/screenshots/signin.png) - Teacher Login : Login page for a teacher. Shows message if password is incorrect.
+    - [`/student/signup`](/screenshots/student_signup.png) - Student Signup : Signup page for a Student. Shows message is email is alredy taken.
+    - [`/student/login`](/screenshots/signin.png) - Student Login : Login page for a Student. Shows message if password is incorrect
     - `/student/enroll/:id`- Enroll course : This webpage enrolls user in the course with given the course ID.
-    - `/dashboard` - Dashboard : This is a common route for student and teacher and require authorization to access. Contents of this page changes depending on the login type.
+    - [`/dashboard`](/screenshots/teacher_dashboard.png) - Dashboard : This is a common route for student and teacher and require authorization to access. Contents of this page changes depending on the login type.
   ---
   ## Modules Used
   Although you can find all the dependencies in the `package.json` file. Here, I am listing dependencies along with there use.
-  - `bcrypt` : Used for encrypting and hashing the passwords. Storing plain-text password is always a bad idea.
-  - `body-parser` : Used for parsing the data sent along the `request.body`
-  - `cookie-parser` and `express-session` : These two are used for maintaining sessions and authorization of user.
-  - `ejs` - Used for making templates.
-  - `express` - Used for handling requests at the back-end
-  - `faker` - This package is not required for production. It is only developement purpose for making fake data.
-  - `mongoose` - Used for connecting MongoDB database.
+  - [`bcrypt`](https://www.npmjs.com/package/bcrypt) : Used for encrypting and hashing the passwords. Storing plain-text password is always a bad idea.
+  - [`body-parser`](https://www.npmjs.com/package/body-parser) : Used for parsing the data sent along the `request.body`
+  - [`cookie-parser`](https://www.npmjs.com/package/cookie-parser) and [`express-session`](https://www.npmjs.com/package/express-session) : These two are used for maintaining sessions and authorization of user.
+  - [`ejs`](https://www.npmjs.com/package/ejs) - Used for making templates.
+  - [`express`](https://www.npmjs.com/package/express) - Used for handling requests at the back-end
+  - [`faker`](https://www.npmjs.com/package/faker) - This package is not required for production. It is only developement purpose for making fake data.
+  - [`mongoose`](https://www.npmjs.com/package/mongoose) - Used for connecting MongoDB database.
   ---
   ## Install and Run
   For running this project, make sure you have `MongoDB` installed and `Mongo Demon` running in the background.
