@@ -34,6 +34,18 @@ All the routes in the websites can be categorized into following categories:
   ~- `/api/seed/course/new` - Generates course : It creates a new course in the database.~
   
   ~Please note that password for all the fake accounts will be `password`.~
+
+  ---
+  ## Database 
+  This branch of the repo uses JSON files to store data. The data can be found in `database/data` folder. Passwords are encrypted and stored accordingly. Some data files were commited to this branch for proper functioning. Login credentials of these accounts are :
+  
+  |Type|Email ID|Password|
+  |---|---|---|
+  |Teacher | Coby46@hotmail.com | password |
+  |Teacher | coltsteele@gmail.com | password|
+  |Teacher | destinihoppe@gmail.com| password|
+  |Student | apoorvkansalak@gmail.com | password|
+  |Student | Kellen87@hotmail.com| password|
   
   ---
   ## Modules Used
