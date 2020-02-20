@@ -26,6 +26,13 @@ All the routes in the websites can be categorized into following categories:
     - [`/student/login`](/screenshots/signin.png) - Student Login : Login page for a Student. Shows message if password is incorrect
     - `/student/enroll/:id`- Enroll course : This webpage enrolls user in the course with given the course ID.
     - [`/dashboard`](/screenshots/teacher_dashboard.png) - Dashboard : This is a common route for student and teacher and require authorization to access. Contents of this page changes depending on the login type.
+- API routes/Data seed routes : These routes can be used to create fake data for students/teachers/courses.
+  - `/api/seed/student/:times` - Generate Student data : It generates "`times`" number of fake students in the database.
+  - `/api/seed/teacher/:times` - Generate Teacher data : It generates "`times`" number of fake teachers in the database.
+  - `/api/seed/course/new` - Generates course : It creates a new course in the database.
+  
+  Please note that password for all the fake accounts will be `password`.
+  
   ---
   ## Modules Used
   Although you can find all the dependencies in the `package.json` file. Here, I am listing dependencies along with there use.

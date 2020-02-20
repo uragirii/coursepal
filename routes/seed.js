@@ -15,6 +15,7 @@ module.exports.seedStudent = (req, res)=>{
         }
         Student.create(newStudent).then(createdStudent=>{
             console.log("Created Student : "+createdStudent.name)
+            console.log('Email :'+createdStudent.email)
         })
     }
     res.send("OK")
@@ -34,6 +35,7 @@ module.exports.seedTeacher = (req, res)=>{
         }
         Teacher.create(newTeacher).then(createdTeacher=>{
             console.log("Created Teacher : "+createdTeacher.name)
+            console.log("Email :"+createdTeacher.email)
         })
     }
     res.send("OK")
