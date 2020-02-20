@@ -1,52 +1,52 @@
 const bcrypt = require('bcrypt')
-const Student = require("../models/Student")
-const Course = require("../models/Course")
-
+// const Student = require("../models/Student")
+// const Course = require("../models/Course")
+const db = require('../database/database')
 
 module.exports.signup = (req, res)=>{
-    // TODO: Check if email is already taken
-    Student.findOne({email: req.body.email}).then(student=>{
+    db.findOne("students", req.body.email).then(student=>{
         if(student){
             res.render("signupStudent", {flash : "email"})
         }
-    })
-    bcrypt.hash(req.body.password,10).then((hash)=>{
-        newStudent = {
-            name : req.body.name,
-            email : req.body.email,
-            hash
+        else{
+            bcrypt.hash(req.body.password,10).then((hash)=>{
+                newStudent = {
+                    name : req.body.name,
+                    email : req.body.email,
+                    courses : [],
+                    hash
+                }
+                db.createStudent(newStudent).then(createdStudent=>{
+                    res.redirect("/student/login")
+                }).catch(err =>{console.log(err); res.redirect("/error")})
+            }).catch(err =>{console.log(err); res.redirect("/error")})
         }
-        Student.create(newStudent).then((createdStudent)=>{
-            res.redirect("/student/login")
-        }).catch(err =>{console.log(err); res.redirect("/error")})
     }).catch(err =>{console.log(err); res.redirect("/error")})
 }
 
 module.exports.login = (req, res)=>{
     let email = req.body.email
     let pass = req.body.password
-
-    Student.findOne({email : email}).populate().then(student=>{
+    db.findOne("students", email).then(student=>{
         if(!student){
             res.render("loginStudent", {flash : "email"})
         }
-        if (bcrypt.compareSync(pass, student.hash)){
-            let courses = []
-            student.courses.forEach(course=> courses.push(course._id))
-            req.session.user = {
-                name : student.name,
-                type : "Student",
-                email : student.email,
-                courses: courses
-            }
-            console.log("Logged in : "+student.name)
-            res.redirect("/dashboard")
-        }
         else{
-            //TODO Do something about incorrect password
-            res.render("loginStudent", {flash : "password"})
+            if(bcrypt.compareSync(pass, student.hash)){
+                req.session.user = {
+                    name : student.name,
+                    type : "Student",
+                    email : student.email,
+                    courses: student.courses
+                }
+                console.log("Logged in : "+student.name)
+                res.redirect("/dashboard")
+            }
+            else{
+                res.render("loginStudent", {flash : "password"})
+            }
         }
-    }).catch(err =>{console.log(err); res.redirect("/error")})
+    }).catch(err=>{console.log(err);res.redirect("/error")})
 }
 
 module.exports.dashboard = (req, res)=>{

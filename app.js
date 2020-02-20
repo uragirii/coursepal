@@ -7,7 +7,7 @@ const seed = require("./routes/seed")
 const student = require("./routes/student")
 const teacher = require("./routes/teacher")
 const course = require("./routes/course")
-
+const db = require("./database/database")
 //Models
 
 
@@ -112,6 +112,12 @@ app.get('/student/signup', (req, res)=>{
 })
 app.post("/student/login", student.login)
 // API For Seeding the data 
+app.post("/api/student/new", (req, res)=>{
+    console.log(req.body)
+    db.addStudent(req.body).then(()=>{
+        res.send("Ok")
+    }).catch(err=>{console.log(err);res.send("err")})
+})
 
 app.get("/api/seed/student/:times", seed.seedStudent)
 app.get("/api/seed/teacher/:times", seed.seedTeacher)
