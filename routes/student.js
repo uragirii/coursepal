@@ -50,18 +50,15 @@ module.exports.login = (req, res)=>{
 }
 
 module.exports.dashboard = (req, res)=>{
-    Student.findOne({email : req.session.user.email}).populate("courses").exec((err, student)=>{
-        if(err){
-            console.error(err)
-            res.redirect("/error")
-        }
-        else{
+    db.findOne("students", req.session.user.email).then(newStudent=>{
+        db.populate("courses", "courses", newStudent).then(student=>{
             res.render("dashboardStudent", {courses : student.courses})
-        }
-    })
+        }).catch(err =>{console.log(err); res.redirect("/error")})
+    }).catch(err =>{console.log(err); res.redirect("/error")})
 }
 
 module.exports.enrollCourse = (req, res)=>{
+    
     Course.findById(req.params.id).then(course=>{
         Student.findOne({email: req.session.user.email}).then(student=>{
             student.courses.push(course)

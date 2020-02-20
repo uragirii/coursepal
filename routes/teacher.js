@@ -53,13 +53,9 @@ module.exports.login = (req, res)=>{
 }
 
 module.exports.dashboard = (req, res) =>{
-    Teacher.findOne({email : req.session.user.email}).populate("courses").exec((err, teacher)=>{
-        if(err){
-            console.error(err)
-            res.redirect("/error")
-        }
-        else{
+    db.findOne("teachers", req.session.user.email).then(newTeacher=>{
+        db.populate("courses", "courses", newTeacher).then(teacher=>{
             res.render("dashboardTeacher", {courses : teacher.courses})
-        }
-    })
+        }).catch(err =>{console.log(err); res.redirect("/error")})
+    }).catch(err =>{console.log(err); res.redirect("/error")})
 }

@@ -1,5 +1,6 @@
-const Teacher = require("../models/Teacher")
-const Course = require("../models/Course")
+// const Teacher = require("../models/Teacher")
+// const Course = require("../models/Course")
+const db = require("../database/database")
 
 
 module.exports.new = (req, res)=>{
@@ -13,15 +14,14 @@ module.exports.new = (req, res)=>{
     newCourse.studentsEnrolled=Math.floor(Math.random()*76543)
     newCourse.teacherName = req.session.user.name
     
-    Course.create(newCourse).then((createdCourse)=>{
-        Teacher.findOne({email:req.session.user.email}).then(teacher =>{
-            teacher.courses.push(createdCourse)
-            teacher.save()
-            createdCourse.author.push(teacher)
-            createdCourse.save()
-        })
-        res.redirect("/course/"+createdCourse._id)
-    }).catch(err =>{console.err; res.redirect("/error")})
+    db.createCourse(newCourse).then((createdCourse)=>{
+        db.findOne("teachers", req.session.user.email).then(teacher=>{
+            teacher.courses.push(createdCourse._id)
+            return db.saveData("teachers",teacher.email, teacher)
+        }).then(()=>{
+            res.redirect("/course/"+createdCourse._id)
+        }).catch(err =>{console.error(err); res.redirect("/error")})
+    }).catch(err =>{console.error(err); res.redirect("/error")})
 }
 
 module.exports.allCourses = (req, res)=>{
@@ -35,15 +35,14 @@ module.exports.allCourses = (req, res)=>{
         regex = arr2.join("|")
         payload.query = true
     }
-    Course.find({name : {$regex: regex, $options : 'i'}}).sort({ratings : "descending"}).limit(10).then(courses=>{
+    db.find("courses", regex).then((courses)=>{
         payload.courses = courses
         res.render("courses", payload)
     }).catch(err =>{console.log(err); res.redirect("/error")})
 }
 
 module.exports.course = (req, res)=>{
-    
-    Course.findById(req.params.id).populate("author").then(course=>{
+    db.getData("courses", req.params.id).then(course=>{
         if(course){
             let enroll = false
             if(req.session.user && req.session.user.type!=="Teacher"){
@@ -55,5 +54,5 @@ module.exports.course = (req, res)=>{
         else{
             res.render("404")
         }
-    }).catch(err =>{console.log(err); res.redirect("/error")})
+    })
 }
